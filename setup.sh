@@ -3,7 +3,7 @@
 
 set -euo pipefail
 
-DOTFILES_DIR="$HOME/dotfiles"
+DOTFILES_DIR="$HOME/dotfiles_omachy"
 PKGS=(stow git neovim curl wget base-devel make ripgrep unzip xclip tmux zsh fzf zoxide npm gcc ghostty)
 
 msg() { printf "\n[+] %s\n" "$1"; }
