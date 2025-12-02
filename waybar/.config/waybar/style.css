@@ -1,5 +1,8 @@
 @import "../omarchy/current/theme/waybar.css";
 
+/* ------------------------------- */
+/* Global styling                  */
+/* ------------------------------- */
 * {
   background-color: @background;
   color: @foreground;
@@ -7,77 +10,97 @@
   border: none;
   border-radius: 0;
   min-height: 0;
+
   font-family: 'CaskaydiaMono Nerd Font';
-  font-size: 12px;
+  font-size: 14px;              /* <-- bigger baseline */
 }
 
-.modules-left {
-  margin-left: 8px;
+/* ------------------------------- */
+/* Vertical layout spacing         */
+/* ------------------------------- */
+#waybar > * {
+  padding: 6px 0;               /* spacing between modules */
+  margin: 6px 0;
 }
 
+/* ------------------------------- */
+/* TOP / MIDDLE / BOTTOM sections */
+/* ------------------------------- */
+.modules-left,
+.modules-center,
 .modules-right {
-  margin-right: 8px;
+  margin: 0;
+  padding: 0;
 }
 
+/* ------------------------------- */
+/* Workspaces                      */
+/* ------------------------------- */
 #workspaces button {
   all: initial;
-  padding: 0 6px;
-  margin: 0 1.5px;
-  min-width: 9px;
+  color: @foreground;
+
+  padding: 4px 0;
+  margin: 3px 0;
+  min-width: 12px;
+
+  font-family: 'CaskaydiaMono Nerd Font';
+  font-size: 20px;              /* <-- bigger workspace icons */
 }
 
 #workspaces button.empty {
   opacity: 0.5;
 }
 
+/* ------------------------------- */
+/* Bigger icons for all modules    */
+/* ------------------------------- */
 #cpu,
 #battery,
 #pulseaudio,
+#network,
+#bluetooth,
 #custom-omarchy,
+#custom-update,
 #custom-screenrecording-indicator,
-#custom-update {
-  min-width: 12px;
-  margin: 0 7.5px;
-}
-
+#custom-expand-icon,
 #tray {
-  margin-right: 16px;
+  font-size: 20px;              /* <-- LARGE icons */
+  margin: 6px 0;                /* vertical spacing */
+  min-width: 20px;
 }
 
-#bluetooth {
-  margin-right: 17px;
-}
+/* ------------------------------- */
+/* Special cases                   */
+/* ------------------------------- */
+#clock {
+  font-size: 15px;
+  font-weight: 500;
+  padding: 6px 6px;
+  margin: 10px 3px;
 
-#network {
-  margin-right: 13px;
-}
-
-#custom-expand-icon {
-  margin-right: 18px;
-}
-
-tooltip {
-  padding: 2px;
+  background-color: alpha(@foreground, 0.08);
+  border-radius: 6px;
 }
 
 #custom-update {
-  font-size: 10px;
-}
-
-#clock {
-  margin-left: 8.75px;
-}
-
-.hidden {
-  opacity: 0;
+  font-size: 14px;              /* bump back up since baseline changed */
 }
 
 #custom-screenrecording-indicator {
-  min-width: 12px;
-  margin-left: 8.75px;
-  font-size: 10px;
+  font-size: 14px;
 }
 
 #custom-screenrecording-indicator.active {
   color: #a55555;
+}
+
+/* Tooltip adjustments */
+tooltip {
+  padding: 2px;
+}
+
+/* Utility */
+.hidden {
+  opacity: 0;
 }
