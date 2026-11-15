@@ -1,0 +1,27 @@
+# Keep the legacy live ~/.local/bin tree on this machine, not in Git.
+# setup.sh installs reviewed source scripts from bin/ instead.
+/scripts/
+
+# Editor/runtime caches and job-owned backups are not dotfiles.
+__pycache__/
+*.py[cod]
+*.bak
+*.bak.*
+*.bak-*
+*~
+.DS_Store
+
+# Local credentials and machine-only overrides must never be captured.
+.env
+.env.*
+!.env.example
+**/local.*
+*.local.*
+**/credentials*
+**/auth.json
+**/token*
+
+# Installer state and test output belong outside the repository.
+.setup-state/
+.coverage
+.pytest_cache/

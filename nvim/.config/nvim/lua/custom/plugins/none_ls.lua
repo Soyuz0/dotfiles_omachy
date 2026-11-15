@@ -13,7 +13,7 @@ return {
 
     local cspell_config = {
       find_json = function(_)
-        return vim.fn.expand '~/.config/cspell.json'
+        return require('config.cspell').config_path()
       end,
     } -- list of formatters & linters for mason to install
     require('mason-null-ls').setup {

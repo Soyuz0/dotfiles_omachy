@@ -1,0 +1,17 @@
+# Optional applications used by the saved shortcuts/default handlers.
+# Selected only by setup.sh --packages --apps. No services are enabled.
+# These names resolved in the source machine's Arch/Omarchy sync databases.
+1password
+spotify
+obsidian
+typora
+signal-desktop
+btop
+lazydocker
+chromium
+mpv
+imv
+evince
+nautilus
+docker
+cliamp

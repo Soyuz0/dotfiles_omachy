@@ -1,0 +1,11 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "dictionaryDefinitions": [
+    {
+      "name": "portable-development",
+      "path": "./cspell-dicts/development.txt"
+    }
+  ],
+  "dictionaries": ["portable-development"]
+}

@@ -1,0 +1,5 @@
+# INACTIVE reference only. The audited host disables autosuspend globally.
+# Prefer a narrowly matched, locally reviewed per-device udev rule instead.
+# Global disabling affects every USB device and can increase power consumption.
+# Do not copy this as an active setting without diagnosing a suspend problem.
+# options usbcore autosuspend=-1

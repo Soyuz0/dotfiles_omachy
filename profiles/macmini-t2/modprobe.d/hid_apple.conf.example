@@ -1,0 +1,4 @@
+# Optional Apple keyboard preference, copied from the readable local setting.
+# fnmode=2 makes the top row send F1-F12 by default; Fn selects media functions.
+# Review keyboard behavior before installing. This is not required by DisplayLink.
+options hid_apple fnmode=2

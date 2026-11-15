@@ -1,0 +1,5 @@
+# Optional reference from the audited T2 host. Check both modules exist for
+# the exact running kernel with modinfo before installing this file.
+# This does not install a T2 kernel, firmware, audio support, or Bluetooth tools.
+apple-bce
+hci_bcm4377

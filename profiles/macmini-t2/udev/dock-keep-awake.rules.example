@@ -1,0 +1,6 @@
+# INACTIVE template. No device IDs, PCI paths, serials, or host-specific matches.
+# The live Targus rule keeps selected USB devices and their controller awake.
+# Determine a narrow match locally; do not apply to every USB device/controller.
+# Replace BOTH placeholders with reviewed local values before uncommenting.
+# ACTION=="add", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTR{idVendor}=="<reviewed-vendor>", ATTR{idProduct}=="<reviewed-product>", TEST=="power/control", ATTR{power/control}="on"
+# No reset, rebind, forced reconnect, automatic trigger, or PCI-controller rule.

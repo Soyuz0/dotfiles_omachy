@@ -1,0 +1,3 @@
+# Intended runtime version from the source machine, not its install/cache tree.
+[tools]
+node = "26.12.1"
