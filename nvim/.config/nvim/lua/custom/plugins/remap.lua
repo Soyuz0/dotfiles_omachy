@@ -7,21 +7,14 @@ vim.keymap.set('n', '<leader>di', function()
 end, { desc = 'Check the Diagnostics' })
 vim.keymap.set('n', '<leader>cw', function()
   local word = vim.fn.expand '<cword>'
-  local dict_path = vim.fn.expand '~/.config/cspell/custom-words.txt'
-
-  -- Append word
-  local file = io.open(dict_path, 'a')
-  if file then
-    file:write(word .. '\n')
-    file:close()
-    print('✅ Added to CSpell dictionary: ' .. word)
-  else
-    print('❌ Failed to open dictionary at ' .. dict_path)
+  local ok, err = pcall(function()
+    require('config.cspell').add_word(word)
+  end)
+  if not ok then
+    vim.notify('Cannot update local cspell dictionary: ' .. tostring(err), vim.log.levels.ERROR)
     return
   end
-
-  -- Sort and deduplicate
-  os.execute(string.format('sort -u %s -o %s', dict_path, dict_path))
+  vim.notify('Added word to the machine-local cspell dictionary')
 
   -- Refresh diagnostics
   local bufnr = vim.api.nvim_get_current_buf()

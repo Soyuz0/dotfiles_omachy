@@ -1,0 +1,6 @@
+# This file may contain credentials. Never capture it in this repository.
+.config/bash/local.sh
+.config/bash/local.sh.*
+.config/bash/local.*.sh
+.config/bash/*.bak*
+.config/bash/*~

@@ -1,0 +1,15 @@
+# Reviewed portable preferences only. No identity, credentials, remotes, or URLs.
+[init]
+	defaultBranch = master
+[pull]
+	rebase = true
+[push]
+	autoSetupRemote = true
+[rerere]
+	enabled = true
+[diff]
+	algorithm = histogram
+
+# Optional machine-local identity and preferences. Never installed from Git.
+[include]
+	path = local.conf

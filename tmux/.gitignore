@@ -1,0 +1,4 @@
+# Track the config, not TPM/plugin checkouts or local socket/runtime files.
+.config/tmux/plugins/
+.config/tmux/local.conf
+.config/tmux/*.sock

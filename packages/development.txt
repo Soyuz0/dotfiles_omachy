@@ -1,0 +1,18 @@
+# Optional Arch repository packages for these development configs.
+# Review with the system package manager; setup_dev.sh does not install them.
+# This is a dependency list, not a byte-reproducible Arch package lockfile.
+base-devel
+git
+mise
+neovim
+tmux
+ripgrep
+fd
+fzf
+unzip
+wl-clipboard
+python
+# Optional formatters used by the existing none-ls config. Mason can supply them.
+shfmt
+stylua
+ruff

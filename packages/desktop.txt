@@ -1,0 +1,18 @@
+# Arch/Omarchy repository packages needed by the personal desktop configuration.
+# Omarchy normally supplies most of these. --needed skips installed packages.
+ghostty
+kitty
+waybar
+hyprland
+hypridle
+hyprlock
+hyprsunset
+hyprland-preview-share-picker
+jq
+wl-clipboard
+pamixer
+libnotify
+swayosd
+wireplumber
+ttf-jetbrains-mono-nerd
+ttf-cascadia-mono-nerd

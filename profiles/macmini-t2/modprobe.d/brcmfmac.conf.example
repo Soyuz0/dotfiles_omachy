@@ -1,0 +1,4 @@
+# INACTIVE reference only. The audited host has this option with a comment
+# describing a T2 MacBook Wi-Fi workaround. It is NOT validated for Macmini8,1.
+# Review the current driver documentation and diagnose Wi-Fi before using it.
+# options brcmfmac feature_disable=0x82000

@@ -4,4 +4,9 @@ test.sh
 nvim
 
 spell/
-lazy-lock.json
+# Plugin revisions are part of the portable config, not an editor cache.
+!lazy-lock.json
+
+# Local dictionary/config overrides may contain private identifiers.
+cspell.local.json
+cspell-dicts/local*.txt
