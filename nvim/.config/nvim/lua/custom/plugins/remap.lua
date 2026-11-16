@@ -54,6 +54,12 @@ vim.keymap.set('n', '<C-[>', '<Nop>', { noremap = true, silent = true })
 vim.keymap.set('n', 'N', 'Nzzzv', { noremap = true, silent = true })
 vim.keymap.set('n', 'G', 'Gzz', { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>w', ':wa<CR>', { desc = 'Write all buffers' })
+vim.keymap.set('n', '<leader>cr', function()
+  local name = vim.api.nvim_buf_get_name(0)
+  if name ~= '' then
+    vim.fn.setreg('+', vim.fn.fnamemodify(name, ':.'))
+  end
+end, { desc = 'Copy relative file path' })
 
 local function setup_python_folds()
   vim.opt_local.foldmethod = 'indent'

@@ -1,0 +1,20 @@
+# Local-only history. No login, cloud sync, old-history import, or daemon setup.
+auto_sync = false
+update_check = false
+secrets_filter = true
+enter_accept = true
+style = "compact"
+inline_height = 20
+
+[sync]
+records = false
+
+# Shell command history only; do not enable AI hooks or PTY recording.
+[ai]
+enabled = false
+
+[pty_proxy]
+enabled = false
+
+[daemon]
+enabled = false

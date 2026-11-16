@@ -8,6 +8,7 @@ hypridle
 hyprlock
 hyprsunset
 hyprland-preview-share-picker
+fastfetch
 jq
 wl-clipboard
 pamixer

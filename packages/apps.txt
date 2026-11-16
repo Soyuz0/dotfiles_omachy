@@ -1,11 +1,10 @@
 # Optional applications used by the saved shortcuts/default handlers.
 # Selected only by setup.sh --packages --apps. No services are enabled.
 # These names resolved in the source machine's Arch/Omarchy sync databases.
+# Spotify and Signal are deliberately excluded; --cleanup removes stock copies.
 1password
-spotify
 obsidian
 typora
-signal-desktop
 btop
 lazydocker
 chromium

@@ -1,0 +1,10 @@
+# Optional Pi fresh-machine restore prerequisites, installed by setup.sh --packages.
+# Node/npm come from the existing mise core provider at the private backup's pin.
+# The helper never calls a system package manager or sudo.
+git
+python
+mise
+rust
+base-devel
+pkgconf
+openssl

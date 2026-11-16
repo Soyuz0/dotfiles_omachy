@@ -15,6 +15,8 @@ Install these repository paths at their corresponding paths under the target hom
 | `mise/.config/mise/config.toml` | `~/.config/mise/config.toml` |
 | `tmux/.config/tmux/tmux.conf` | `~/.config/tmux/tmux.conf` |
 | `nvim/.config/nvim/` | `~/.config/nvim/` |
+| `lazygit/.config/lazygit/config.yml` | `~/.config/lazygit/config.yml` |
+| `atuin/.config/atuin/config.toml` | `~/.config/atuin/config.toml` |
 
 Keep Omarchy's stock `~/.bashrc`. After its stock initialization, add exactly this
 line once through the main installer's backed-up, idempotent edit mechanism:
@@ -27,6 +29,14 @@ Do not source any live startup script to validate it. `custom.sh` only affects
 interactive Bash. Omarchy already supplies aliases such as `g`, `n`, and `t`,
 completion, and mise activation. The custom file appends `~/.local/bin` without
 duplicating it. It does not retain the source machine's fixed runtime paths.
+When Atuin is present, it initializes history once after Omarchy's fzf setup,
+using `atuin init bash --disable-up-arrow --disable-ai`. Ctrl-R searches Atuin;
+Up-arrow is unchanged. Atuin 18.24.1 bundles the Bash preexec hook. Noninteractive
+shells do not initialize it. `DOTFILES_DISABLE_ATUIN=1` opts out. Fastfetch also
+runs once per interactive terminal with TTY output, before Atuin initializes.
+It skips scripts and redirected output; `DOTFILES_DISABLE_FASTFETCH=1` opts out.
+Both tools are in the package manifests. Open a new shell rather than executing
+a live startup file during validation.
 
 `~/.config/bash/local.sh` is an optional, private source hook. The installer must
 not create or copy it, including when the source machine has one. The scoped
@@ -120,7 +130,8 @@ configured Terraform formatter. `setup_dev.sh` does not run Mason or Neovim.
 ## Tmux
 
 The config tolerates absent TPM and missing optional `~/.pi/scripts/tmux-pi-*.conf`
-files. The Pi files are not copied. All existing keybindings remain unchanged.
+files. The Pi files are not copied. Existing prefixes and navigation bindings
+remain unchanged; persistence adds uppercase `prefix+S` and `prefix+U`.
 
 `setup_tmux.sh` installs only TPM at `~/.tmux/plugins/tpm`. It clones upstream tag
 `v3.1.0` and verifies commit `7bdb7ca33c9cc6440a600202b50142f401b6fe21` before
@@ -133,9 +144,12 @@ TPM revision; it remains untouched. Failed new clones remove only that invocatio
 staging directory. The installer needs Git and GNU `mv`, `mktemp`, and standard
 shell utilities.
 
-TPM plugin installation is a separate manual network action through TPM. The
-plugin list still follows upstream branches and is not a reproducible plugin
-lockfile. No plugin installation or live tmux reload occurs in either script.
+`setup_tmux_persistence.sh --install` separately installs and verifies only
+resurrect and continuum at pinned commits. It does not require replacing an
+existing TPM checkout, execute plugin scripts, or reload tmux. See
+[tmux persistence](tmux-persistence.md) for the no-process-replay policy and scoped
+activation. Other TPM plugins still require separate installation and are not
+covered by a complete lockfile.
 
 ## Neovim and cspell
 

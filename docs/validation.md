@@ -78,3 +78,99 @@ The baseline inventory and original setup scripts were saved outside Git under
 `~/.local/state/dotfiles-omachy/before-20261115-225105/`. They are small recovery
 records, not a copy of credentials or the full home directory. Keep these local
 recovery records outside the published repository.
+
+## Selected desktop additions follow-up
+
+The subsequent update adds the two small Neovim mappings, the explicitly requested
+`e!` reload mapping, LazyGit preferences, local-only Atuin, Fastfetch startup,
+and pinned tmux persistence sources.
+
+- Actual headless Neovim with no init or plugins tested `e!` against a temporary
+  modified buffer and confirmed the original disk bytes were unchanged.
+- Atuin 18.24.1 was installed in the user account from the official release after
+  archive checksum verification. Tests use temporary homes, prove the managed
+  config is read, parse generated Bash initialization, and check synthetic history
+  database permissions under a normal umask. No live history was read or imported.
+- Fastfetch 2.70.0 was already installed. Seven inert pseudo-terminal tests cover
+  one banner per interactive shell, opt-out, missing/failing binaries, redirected
+  output and noninteractive shells. No live startup file was sourced.
+- The pinned tmux sources passed commit, byte-state and index-flag checks. New
+  snapshot storage is guarded at `~/.local/state/tmux-resurrect` with mode `0700`.
+  Private-socket tests cover failure blocking, hidden index modifications and
+  loader behavior. No old snapshots were read or migrated.
+- Scoped live activation loaded only resurrect and continuum. All nine existing
+  pane process IDs, prefixes, pane navigation, status mode and status interval
+  were preserved. The status save interpolation is attached for the 60-minute
+  interval. No save, restore, process replay, full config reload or session restart
+  was requested by setup. A real save/restore cycle was not used as a test around
+  active work. See the persistence doc for its status-refresh scheduling limits.
+
+Private backups and scoped live-operation records for these changes are under
+`~/.local/state/dotfiles-omachy/desktop-additions-before-20261115-234420/`.
+The Bash backup may contain credentials and must never be published.
+
+## Pi fresh-restore validation scope
+
+`--pi` is an explicit opt-in and is incompatible with offline home staging or
+file-restore mode. Orchestration tests use inert commands to check package
+selection, preflight/install ordering, no-write previews and refusal behavior.
+The helper's bootstrap tests use synthetic repositories and provider stubs.
+
+The real private bootstrap was not run against this machine. It has an active Pi
+and an existing private checkout with unrelated edits, which the helper correctly
+refuses to adopt. Read-only checks confirmed that the current non-secret version
+metadata is supported: Pi 1.5.2, Node v26.12.1 and three pinned source entries.
+No private configuration, credentials, provider stores, sessions or source trees
+were copied into the public dotfiles. The live private checkout was not changed
+or synchronized by this task. A real fresh-target dependency build and SDK
+startup remain required end-to-end validation, beyond the isolated stub suite.
+
+The final full suite passed all 154 tests. Direct Ruff, shell/Lua syntax, Python
+AST and config parsing checks passed; the final candidate scan covered 101
+Git-visible files with no Gitleaks findings. Default LSP executables remain
+unavailable as noted above. No extra tools were installed to change that routing.
+
+Independent review caught a Pi working-directory error and insufficient checkout
+byte verification. The corrected implementation uses the resolved managed Node
+without changing the caller's cwd, and checks raw tracked bytes, symlink targets
+and executable bits against pinned trees. The reviewer reran the two original
+reproductions and all 43 focused Pi tests, confirmed both findings closed, and
+reported no remaining concrete blocker within the focused scope. A separate
+review likewise closed the tmux snapshot-privacy and hidden-index findings.
+
+## Authorized app cleanup follow-up
+
+The user subsequently authorized exact cleanup targets. Native targets are
+Alacritty, Signal, Blueberry and Spotify. Web shortcut targets are Zoom, HEY,
+Basecamp, Google Contacts, Google Messages, Google Maps, X, Figma, Discord and
+Fizzy. Aether, cliamp, bluetui, iCloud and all other apps remain outside the policy.
+`--cleanup` is an explicit setup option; Spotify and Signal were removed from the
+optional install manifest to prevent reintroduction.
+
+Independent review caught a last-comparison race before unlink/MIME replacement.
+The fix atomically captures the actual inode, validates after capture, retains it
+in the private journal, and uses no-overwrite publication/recovery. The reviewer
+closed the finding after all 46 focused tests and 10 independent boundary probes
+passed. The final full suite passed all 200 tests. Direct Ruff, syntax and diff
+checks passed. The cleanup follow-up source scan covered 106 candidate files
+with no Gitleaks findings. Configured LSP executables remain unavailable; install them or
+correct their commands in `pi-lsp.json` for those optional diagnostics.
+
+Live application deliberately used only `--apply --shortcuts-only`, because the
+user deferred Spotify's administrator-authenticated removal. Zoom's launcher was
+removed, the other nine were already absent, and one stale HEY mailto token was
+removed. All unrelated launchers, the Zoom icon, other MIME values/comments and
+MIME permissions were preserved. No package, app-data, cache or service operation
+was performed. Alacritty, Signal and Blueberry remain absent. Spotify remains
+installed/pending, and Aether, cliamp and bluetui remain installed.
+
+The successful run and held originals are private under
+`~/.local/state/dotfiles-omachy/cleanup/20261116T101606Z-98a732cfcfdc4542be7f1a98aadf06a9/`.
+Its run directory is `0700`, and its manifest/before-copies are `0600`. A clean
+repeat created no journal and did not rewrite MIME data. The full read-only
+preview now reports only Spotify as remaining native work. No root authentication
+workaround was attempted.
+
+No current Pi configuration was changed, so the private Pi sync workflow was not
+run over its unrelated pending edits. Git history records subsequent commits;
+the live Spotify removal remains a separate administrator-authenticated action.

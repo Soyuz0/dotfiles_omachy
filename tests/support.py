@@ -28,6 +28,8 @@ ROOT_FILES = {
     'kitty': '.config/kitty/kitty.conf',
     'swayosd': '.config/swayosd/config.toml',
     'wireplumber': '.config/wireplumber/wireplumber.conf.d/bluetooth-a2dp-autoconnect.conf',
+    'lazygit': '.config/lazygit/config.yml',
+    'atuin': '.config/atuin/config.toml',
 }
 HOOK = b'[ -r "$HOME/.config/bash/custom.sh" ] && . "$HOME/.config/bash/custom.sh"'
 

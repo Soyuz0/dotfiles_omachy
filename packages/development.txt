@@ -6,6 +6,8 @@ git
 mise
 neovim
 tmux
+lazygit
+atuin
 ripgrep
 fd
 fzf

@@ -25,6 +25,7 @@ ROOTS = (
     "nvim/.config/nvim", "tmux/.config/tmux", "bash/.config/bash",
     "git/.config/git", "mise/.config/mise", "kitty/.config/kitty",
     "swayosd/.config/swayosd", "wireplumber/.config/wireplumber",
+    "lazygit/.config/lazygit", "atuin/.config/atuin",
 )
 BASH_HOOK = '[ -r "$HOME/.config/bash/custom.sh" ] && . "$HOME/.config/bash/custom.sh"'
 STATE_REL = Path(".local/state/dotfiles-omachy/installs")
@@ -417,9 +418,13 @@ def install(home: Path, actions: list[dict]) -> Path | None:
     return folder
 
 
-def package_names(include_apps: bool = False) -> list[str]:
+def package_names(include_apps: bool = False, include_pi: bool = False) -> list[str]:
     result = []
-    groups = ("desktop", "development", "apps") if include_apps else ("desktop", "development")
+    groups = ("desktop", "development")
+    if include_apps:
+        groups += ("apps",)
+    if include_pi:
+        groups += ("pi",)
     for name in groups:
         path = REPO / "packages" / f"{name}.txt"
         if not path.is_file():
@@ -437,10 +442,12 @@ def package_names(include_apps: bool = False) -> list[str]:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="setup.sh", description=__doc__)
-    parser.add_argument("--dry-run", action="store_true", help="Preview only; create no files and run no package manager")
+    parser.add_argument("--dry-run", action="store_true", help="Preview only; create no files and make no package changes")
     parser.add_argument("--backup", action="store_true", help="Back up conflicting files instead of refusing them")
     parser.add_argument("--packages", action="store_true", help="Also install declared Arch/Omarchy packages; no system upgrade")
     parser.add_argument("--apps", action="store_true", help="With --packages, include optional applications used by saved shortcuts")
+    parser.add_argument("--pi", action="store_true", help="Install Pi and restore private Soyuz0/pi-config on a fresh home; GitHub access required")
+    parser.add_argument("--cleanup", action="store_true", help="Remove the explicitly selected apps and web shortcuts after installation")
     parser.add_argument("--machine", choices=("generic", "macmini-t2"), default="generic", help="Monitor profile only; never changes /etc or services")
     parser.add_argument("--home", type=Path, help="Stage config in another existing home; disables package operations and Omarchy checks")
     parser.add_argument("--restore", type=Path, metavar="INSTALL_DIR", help="Undo a recorded installation, refusing to overwrite later changes")
@@ -450,7 +457,7 @@ def main(argv: list[str] | None = None) -> int:
         raise SetupError("Home must be an existing real directory other than /")
     home = home.resolve()
     if args.restore:
-        if args.packages or args.apps or args.backup or args.machine != "generic":
+        if args.packages or args.apps or args.pi or args.cleanup or args.backup or args.machine != "generic":
             raise SetupError("--restore cannot be combined with installation options")
         folder = args.restore.absolute()
         if args.dry_run:
@@ -463,6 +470,10 @@ def main(argv: list[str] | None = None) -> int:
         raise SetupError("--apps requires --packages; application installation is always explicit")
     if args.home and args.packages:
         raise SetupError("--packages cannot be used with --home staging")
+    if args.home and args.pi:
+        raise SetupError("--pi cannot be used with --home staging")
+    if args.home and args.cleanup:
+        raise SetupError("--cleanup cannot be used with --home staging")
     if not args.home and not (home / ".local/share/omarchy/default/hypr").is_dir():
         raise SetupError("Install Omarchy first. Use --home DIR only for offline config staging.")
     actions = plan(home, args.machine, args.backup)
@@ -470,17 +481,34 @@ def main(argv: list[str] | None = None) -> int:
         target = home / item["path"]
         if target == REPO or REPO in target.parents:
             raise SetupError(f"Refusing a destination inside the source repository: {target}")
+    cleanup = REPO / "setup_cleanup.sh"
+    if args.cleanup:
+        if not cleanup.is_file() or cleanup.is_symlink():
+            raise SetupError(f"Missing or unsafe cleanup helper: {cleanup}")
+        subprocess.run([str(cleanup), "--dry-run"], check=True)
     if args.packages:
-        packages = package_names(args.apps)
+        packages = package_names(args.apps, args.pi)
+        if args.cleanup and set(packages) & {"alacritty", "signal-desktop", "blueberry", "spotify"}:
+            raise SetupError("An install manifest conflicts with the selected app cleanup policy")
         print("PACKAGES: sudo pacman -S --needed " + " ".join(packages))
         if not args.dry_run:
             if not shutil.which("pacman") or not shutil.which("sudo"):
                 raise SetupError("sudo and pacman are required for --packages")
             subprocess.run(["sudo", "pacman", "-S", "--needed", *packages], check=True)
+    if args.pi:
+        helper = REPO / "setup_pi.sh"
+        if not helper.is_file() or helper.is_symlink():
+            raise SetupError(f"Missing or unsafe Pi restore helper: {helper}")
+        mode = "--dry-run" if args.dry_run else "--preflight"
+        subprocess.run([str(helper), mode], check=True)
     if args.dry_run:
-        print(f"Preview complete. {len(actions)} file change(s); no writes or commands executed.")
+        print(f"Preview complete. {len(actions)} file change(s); no writes or install/removal actions executed.")
         return 0
+    if args.pi:
+        subprocess.run([str(REPO / "setup_pi.sh"), "--install"], check=True)
     install(home, actions)
+    if args.cleanup:
+        subprocess.run([str(cleanup), "--apply"], check=True)
     print("No desktop reload or service changes were performed. See README.md for optional tools and theme activation.")
     return 0
 
