@@ -44,6 +44,16 @@ If the parent accepts a different target home, reject an applying `--pi` invocat
 8. Load the restored non-secret resources through the installed Pi SDK in a temporary isolated `HOME` and empty working directory. The fixture copies tracked files only and links the newly installed dependency trees. It contains no credentials or old runtime state. It uses `PI_OFFLINE=1`, disables telemetry/version checks, blocks Node fetch/HTTP/socket attempts, creates an in-memory session, binds print-mode extensions, checks extension import/startup errors, and disposes the session. It never calls `prompt`, a model, a tool, a gateway, or a login command. An extension or network error blocks completion. This check is not an OS sandbox or a functional provider test.
 9. Only after that check passes, copy and SHA-256-verify RTK into a new `~/.local/bin/rtk`. Create a new `~/.local/bin/pi` wrapper that executes the resolved managed Node and this private runtime's CLI directly. It preserves the invoking project directory and arguments, sets the matching Node directory first on `PATH`, and does not invoke mise or load project mise configuration before Pi's trust decision. Ensure `~/.local/bin` is on `PATH`. Write the completed receipt with the fetched commit, source pins, completed steps and command checksums.
 
+## Install Codex and Claude Code
+
+When following this guide on a fresh machine, install both the native Codex CLI and Claude Code as part of completing the setup. These are separate installation steps; `setup_pi.sh` does not install either CLI.
+
+1. Check whether `codex` and `claude` are already available on `PATH`. Reuse working installations.
+2. Install each missing CLI using its current official installation instructions. Installing Pi or configuring its GPT/Claude models does not satisfy this step.
+3. Verify that `codex --version` and `claude --version` both succeed in the user's normal shell. Report any missing or failed installation before calling the setup complete.
+
+Keep existing CLI configuration, authentication and gateway routing intact. New authentication and machine-specific routing remain separate steps below.
+
 ## Source verification limits
 
 The helper reads the pinned commit tree, then hashes raw tracked-file bytes with Git's blob header and compares the resulting object identities. It also checks filesystem types, exact symlink target bytes, and Git's executable bit. It does not trust `git status`, index stat caches, `assume-unchanged`, or `skip-worktree`. A checkout filter, line-ending conversion, or LFS materialization that changes raw committed bytes causes refusal, not a reset or silent normalization. Submodules and non-SHA-1 tree formats require manual review.
@@ -62,7 +72,7 @@ The dashboard package and its redundant bridge source receive empty resource fil
 
 These components remain manual:
 
-- Provider login, any additional machine-specific model configuration, native Codex/Claude CLI installation and authentication. Credential-free tracked model overrides return through the clone, but no authentication files, provider stores, history or sessions are copied. No provider is tested by making a paid request.
+- Provider login, any additional machine-specific model configuration, and native Codex/Claude CLI authentication. Install the CLIs as requested above. Credential-free tracked model overrides return through the clone, but no authentication files, provider stores, history or sessions are copied. No provider is tested by making a paid request.
 - Dashboard pairing, local server, machine-specific Tailscale hostname and Serve routes. The installed dashboard also embeds its own older Pi dependency. Installing the shell CLI does not upgrade that embedded runtime.
 - Computer-use release executables and desktop libraries. The private README documents the reviewed executable installer and pinned desktop dependency installer. npm `--ignore-scripts` deliberately skips the executable download. Review and install those separately, then intentionally re-enable the adapter.
 - Gateway runtime, account enrollment, subscription probes, paid fallback, management UI, systemd services, lingering, Homarr, and all associated keys/state. Tracked restore scripts are resources, not permission to execute them here. Machine-specific script/template paths may still require review.
